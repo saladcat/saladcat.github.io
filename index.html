@@ -229,6 +229,262 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/02/shadowsocks-ubuntu配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/02/shadowsocks-ubuntu配置/" itemprop="url">shadowsocks+ubuntu配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-02T20:25:12+08:00">
+                2018-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="shadowsocks-ubuntu"><a href="#shadowsocks-ubuntu" class="headerlink" title="shadowsocks+ubuntu"></a>shadowsocks+ubuntu</h2><ol>
+<li><p><code>sudo apt install shadowsocks</code></p>
+</li>
+<li><p><code>vim ss.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;11.22.33.44&quot;,</span><br><span class="line">    &quot;server_port&quot;:50003,</span><br><span class="line">    &quot;local_port&quot;:1080,</span><br><span class="line">    &quot;password&quot;:&quot;123456&quot;,</span><br><span class="line">    &quot;timeout&quot;:600,</span><br><span class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>sslocal -c ss.json</code>或者<code>sudo sslocal -c ss.json .start</code></p>
+</li>
+</ol>
+<h3 id="浏览器配置"><a href="#浏览器配置" class="headerlink" title="浏览器配置"></a>浏览器配置</h3><ol>
+<li>chrome 插件<a href="https://github.com/FelisCatus/SwitchyOmega/releases/" target="_blank" rel="noopener">SwitchyOmega</a></li>
+<li>PAC列表 <a href="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt" target="_blank" rel="noopener">github</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/02/proxychains-配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/02/proxychains-配置/" itemprop="url">proxychains 配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-02T20:18:46+08:00">
+                2018-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="配置proxychains"><a href="#配置proxychains" class="headerlink" title="配置proxychains"></a>配置proxychains</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/rofl0r/proxychains-ng.git</span><br><span class="line">cd proxychains-ng</span><br><span class="line"></span><br><span class="line">./configure –prefix=/usr –sysconfdir=/etc</span><br><span class="line"></span><br><span class="line">sudo make </span><br><span class="line"></span><br><span class="line">sudo make install</span><br><span class="line"></span><br><span class="line">sudo make install-config</span><br></pre></td></tr></table></figure>
+<p>把proxychains.conf最后一行改成</p>
+<p><code>sock5 127.0.0.1 1086</code>最后1086是自己的端口</p>
+<p>用的时候proxychains4 加命令就行了</p>
+<h3 id="若在mac上"><a href="#若在mac上" class="headerlink" title="若在mac上"></a>若在mac上</h3><p><code>brew install proxychains-ng</code>搞定，然后在根据运行结果找到proxychains.conf的位置，配置一下</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/02/NVIDIA驱动和CUDA安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -344,24 +600,30 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:<span class="variable">$LD_LIBRARY_PATH</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装依赖库</p>
- <figure class="highlight plain"><figcaption><span>apt-get install freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4. 更换GCC和G++版本(两个一起换，只换一个不得行)</span><br><span class="line"></span><br><span class="line">   ```bash</span><br><span class="line">   #安装两个版本的 GCC和G++，先用4.8的</span><br><span class="line">   sudo apt install gcc-7 g++-7</span><br><span class="line">   sudo apt install gcc-4.8 g++-4.8</span><br><span class="line">   # 调整优先级</span><br><span class="line">   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 100</span><br><span class="line">   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 100</span><br><span class="line">   </span><br><span class="line">   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 80</span><br><span class="line">   sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 80</span><br><span class="line">   # 通过指令 查看优先级</span><br><span class="line">   sudo update-alternatives --config gcc</span><br><span class="line">   sudo update-alternatives --config g++</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更换GCC和G++版本(两个一起换，只换一个不得行)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装两个版本的 GCC和G++，先用4.8的</span></span><br><span class="line">sudo apt install gcc-7 g++-7</span><br><span class="line">sudo apt install gcc-4.8 g++-4.8</span><br><span class="line"><span class="comment"># 调整优先级</span></span><br><span class="line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 100</span><br><span class="line">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 100</span><br><span class="line"></span><br><span class="line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 80</span><br><span class="line">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 80</span><br><span class="line"><span class="comment"># 通过指令 查看优先级</span></span><br><span class="line">sudo update-alternatives --config gcc</span><br><span class="line">sudo update-alternatives --config g++</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>chmod u+x cuda...run</code> 给予运行权限</p>
 </li>
 <li><p>处理 installUtils.pm</p>
 <ol>
 <li><code>./cuda*.run --tar -mxvf</code></li>
-<li><code>sudo cp installUtils.pm /usr/lib/x86_64-linux-gnu/perl-base</code></li>
+<li><code>sudo cp InstallUtils.pm /usr/lib/x86_64-linux-gnu/perl-base</code></li>
 <li><code>export $PERL5LIB</code></li>
 </ol>
 </li>
 <li><p><code>sudo ./cuda......run --no-opengl-libs --override</code>运行文件（如果出错了，记得去找LOG文件）</p>
 </li>
-<li><p>添加CUDA到环境</p>
+<li><p>添加CUDA到环境 ~/.bashrc</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda/bin:<span class="variable">$PATH</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda/lib64:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>测试安装是否成功</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/cuda/samples/1_Utilities/deviceQuery</span><br><span class="line">sudo make</span><br><span class="line">./deviceQuery</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装cuDNN，以5.1.10来举例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo cp * /usr/<span class="built_in">local</span>/cuda/include/ <span class="comment">#复制头文件</span></span><br><span class="line">sudo cp * /usr/<span class="built_in">local</span>/cuda/lib64/ <span class="comment">#复制动态链接库</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/cuda/lib64/sudo </span><br><span class="line">rm -rf libcudnn.so libcudnn.so.5 <span class="comment">#删除原有动态文件</span></span><br><span class="line">sudo ln -s libcudnn.so.5.1.10 libcudnn.so.5 <span class="comment">#生成软衔接</span></span><br><span class="line">sudo ln -s libcudnn.so.5 libcudnn.so <span class="comment">#生成软链接</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 
@@ -692,7 +954,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -705,7 +967,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
