@@ -229,6 +229,174 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/11/caffe-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/11/caffe-install/" itemprop="url">caffe install</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-11T12:49:50+08:00">
+                2018-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="install-Caffe"><a href="#install-Caffe" class="headerlink" title="install Caffe"></a>install Caffe</h1><p>pre：安装CUDA8.0，cuDNN 5.1, block anaconda,gcc version =5</p>
+<ol>
+<li>安装依赖包</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler</span><br><span class="line"></span><br><span class="line">sudo apt-get install --no-install-recommends libboost-all-dev</span><br><span class="line"></span><br><span class="line">sudo apt-get install libopenblas-dev liblapack-dev libatlas-base-dev</span><br><span class="line"></span><br><span class="line">sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev</span><br><span class="line"></span><br><span class="line">sudo apt-get install git cmake build-essential</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>clone caffe</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/BVLC/caffe.git</span><br><span class="line">cd caffe</span><br><span class="line">sudo cp Makefile.config.example Makefile.config</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>修改Makefile.config 和makefile </li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># Makefile.config</span><br><span class="line">将</span><br><span class="line">#USE_CUDNN := 1</span><br><span class="line">修改成： </span><br><span class="line">USE_CUDNN := 1</span><br><span class="line">将</span><br><span class="line">#OPENCV_VERSION := 3 </span><br><span class="line">修改为： </span><br><span class="line">OPENCV_VERSION := 3</span><br><span class="line">将</span><br><span class="line">#WITH_PYTHON_LAYER := 1 </span><br><span class="line">修改为 </span><br><span class="line">WITH_PYTHON_LAYER := 1</span><br><span class="line">INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include</span><br><span class="line">LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib </span><br><span class="line">修改为： </span><br><span class="line">INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial</span><br><span class="line">LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial       </span><br><span class="line"></span><br><span class="line"># makefile</span><br><span class="line">将：</span><br><span class="line">NVCCFLAGS +=-ccbin=$(CXX) -Xcompiler-fPIC $(COMMON_FLAGS)</span><br><span class="line">替换为：</span><br><span class="line">NVCCFLAGS += -D_FORCE_INLINES -ccbin=$(CXX) -Xcompiler -fPIC $(COMMON_FLAGS)</span><br><span class="line"></span><br><span class="line">将：</span><br><span class="line">LIBRARIES += glog gflags protobuf boost_system boost_filesystem m hdf5_hl hdf5</span><br><span class="line">改为：</span><br><span class="line">LIBRARIES += glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><p>修改protoc版本    </p>
+<ol>
+<li>下载<a href="https://github.com/protocolbuffers/protobuf/releases?after=v3.0.0-alpha-1" target="_blank" rel="noopener">protobuf</a></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> protobuf</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make check</span><br><span class="line">make install</span><br><span class="line">sudo ldconfig</span><br><span class="line">protoc --version</span><br></pre></td></tr></table></figure>
+<p>如果显示的版本是2.6.1则OK，若不是</p>
+<p>将手动编译的protoc替换到usr/bin里面</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将手动编译的protoc替换到usr/bin里面</span></span><br><span class="line">sudo find/ -name protoc</span><br><span class="line"><span class="built_in">cd</span> XX</span><br><span class="line">sudo rm -rf /usr/bin/protoc</span><br><span class="line">sudo cp protoc /usr/bin/</span><br><span class="line">sudo ldconfig</span><br><span class="line">protoc --version</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>安装caffe</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">make -j8 </span><br><span class="line">make runtest -j8</span><br><span class="line">make pycaffe -j8</span><br><span class="line"></span><br><span class="line">pip install -U scikit-image</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>配置环境变量</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.bashrc</span><br><span class="line"><span class="comment"># add caffe/python</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PYTHONPATH=~/code/caffe/python</span><br><span class="line"><span class="comment"># :wq</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>test</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python(确认是不是2.7的)</span><br><span class="line"></span><br><span class="line">import caffe</span><br></pre></td></tr></table></figure>
+<h1 id="py-faster-rcnn"><a href="#py-faster-rcnn" class="headerlink" title="py-faster-rcnn"></a>py-faster-rcnn</h1><ol>
+<li>Clone <a href="https://github.com/rbgirshick/py-faster-rcnn" target="_blank" rel="noopener">py-faster-rcnn</a></li>
+<li><p>当前版本的caffe的cudnn实现与系统所安装的cudnn的版本不一致</p>
+<ol>
+<li>将./include/caffe/util/cudnn.hpp 换成最新版的caffe里的cudnn的实现，即相应的cudnn.hpp.</li>
+<li>将./include/caffe/layers里的，所有以cudnn开头的文件，例如cudnn_conv_layer.hpp。   都替换成最新版的caffe里的相应的同名文件。</li>
+<li>将./src/caffe/layer里的，所有以cudnn开头的文件，例如cudnn_lrn_layer.cu，cudnn_pooling_layer.cpp，cudnn_sigmoid_layer.cu都替换成最新版的caffe里的相应的同名文件。</li>
+</ol>
+</li>
+<li><p>跟着github上的教程走</p>
+</li>
+<li>完成</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/02/shadowsocks-ubuntu配置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -958,7 +1126,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -971,7 +1139,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
