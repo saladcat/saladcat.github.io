@@ -229,6 +229,295 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/14/android-development/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/14/android-development/" itemprop="url">android development</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-14T15:18:12+08:00">
+                2019-01-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="android"><a href="#android" class="headerlink" title="android"></a>android</h1><h2 id="android-camera2-api"><a href="#android-camera2-api" class="headerlink" title="android camera2 api"></a>android camera2 api</h2><h3 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h3><p><img src="https://i.loli.net/2019/01/14/5c3c3889cd05f.png" alt="android_camera.png"></p>
+<h3 id="操作API"><a href="#操作API" class="headerlink" title="操作API"></a>操作API</h3><ul>
+<li><p><code>mContext.getSystemService(Context.CAMERA_SERVICE);</code></p>
+<p>用于获取系统的cameraManager</p>
+</li>
+<li><p><code>id = mCameraManager.getCameraIdList()</code></p>
+<p><code>mCameraManager.getCameraCharacteristics(id)</code></p>
+<p>选择不同的摄像头</p>
+</li>
+<li><p><code>mCameraManager.openCamera(mCameraId, mStateCallback, null);</code></p>
+<p>根据id打开摄像头，并设置callback，callback决定了摄像头不同状态时会触发什么函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> CameraDevice.StateCallback mStateCallback = <span class="keyword">new</span> CameraDevice.StateCallback() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOpened</span><span class="params">(@NonNull CameraDevice cameraDevice)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 打开相机时调用此方法。 在这里开始相机预览。</span></span><br><span class="line">        mCameraDevice = cameraDevice;</span><br><span class="line">        <span class="comment">//创建CameraPreviewSession</span></span><br><span class="line">        Log.i(TAG, <span class="string">"onOpened: before createCameraPreviewSession"</span>);</span><br><span class="line">        createCameraPreviewSession();</span><br><span class="line">        Log.i(TAG, <span class="string">"onOpened: after createCameraPreviewSession"</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>createCameraPreviewSession()</code></p>
+<p>根据captureRequestBuilder的设置，通过manager设置一个 caputrueSession，不断发送请求。</p>
+<p><code>createCaptureSession</code> 设定了返回的值的数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">mCaptureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);</span><br><span class="line">mCaptureRequestBuilder.addTarget(mSurface);</span><br><span class="line">mCaptureRequestBuilder.set(CaptureRequest.STATISTICS_FACE_DETECT_MODE, CameraMetadata.STATISTICS_FACE_DETECT_MODE_FULL);</span><br><span class="line">mCameraDevice.createCaptureSession(Collections.singletonList(mSurface), <span class="keyword">new</span> CameraCaptureSession.StateCallback() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigured</span><span class="params">(@NonNull CameraCaptureSession session)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//构建captureRequest对象</span></span><br><span class="line">        <span class="comment">//设置人脸检测</span></span><br><span class="line">        <span class="comment">// 会话准备好后，我们开始显示预览</span></span><br><span class="line">        mCaptureSession = session;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 自动对焦</span></span><br><span class="line">            mCaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,</span><br><span class="line">                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);</span><br><span class="line">            <span class="comment">// 最终开启相机预览并添加事件</span></span><br><span class="line">            mPreviewRequest = mCaptureRequestBuilder.build();</span><br><span class="line">            mCaptureSession.setRepeatingRequest(mPreviewRequest,</span><br><span class="line">                    mCaptureCallback, mBackgroundHandler);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CameraAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>CameraCaptureSession.CaptureCallback mCaptureCallback</code></p>
+<p>根据callback设定返回的结果和如何处理（有一部分</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> CameraCaptureSession.CaptureCallback mCaptureCallback = <span class="keyword">new</span> CameraCaptureSession.CaptureCallback() &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 对摄像头返回的结果进行处理,并获取人脸数据</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> result 摄像头数据</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(CaptureResult result)</span> </span>&#123;</span><br><span class="line">    	<span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h2><h4 id="请求到http服务器，并通过post请求发送图片数据"><a href="#请求到http服务器，并通过post请求发送图片数据" class="headerlink" title="请求到http服务器，并通过post请求发送图片数据"></a>请求到http服务器，并通过post请求发送图片数据</h4><ul>
+<li><p>注意事项：不要在主进程发送http请求，会报错解决方法1. 通过handler创建新的进程 2.  用方法忽略掉</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TargetApi</span>(Build.VERSION_CODES.GINGERBREAD)</span><br><span class="line"><span class="meta">@SuppressLint</span>(<span class="string">"NewApi"</span>)</span><br><span class="line"><span class="comment">// function</span></span><br><span class="line">    StrictMode.ThreadPolicy policy = <span class="keyword">new</span> StrictMode.ThreadPolicy.Builder().permitAll().build();</span><br><span class="line">    StrictMode.setThreadPolicy(policy);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将bitmap 压缩成png图片，并且转码为base64字符串，用utf-8编码(注意，如果不用utf-8编码，在post的时候有些特殊字符会变成空格，比如+会变成空格)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">bitmap.compress(Bitmap.CompressFormat.PNG, <span class="number">100</span>, baos);</span><br><span class="line"></span><br><span class="line">baos.flush();</span><br><span class="line">baos.close();</span><br><span class="line"></span><br><span class="line"><span class="keyword">byte</span>[] bitmapBytes = baos.toByteArray();</span><br><span class="line">result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);</span><br><span class="line">String key = URLEncoder.encode(encoded, <span class="string">"utf-8"</span>);</span><br><span class="line"><span class="keyword">return</span> key</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将base64字符串发送到服务器，并接受返回文本</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// input string, url_adress</span></span><br><span class="line">URL url = <span class="keyword">new</span> URL(url_adress);</span><br><span class="line">HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">conn.setConnectTimeout(<span class="number">50000</span>);<span class="comment">//超时时间</span></span><br><span class="line">conn.setRequestMethod(<span class="string">"POST"</span>);</span><br><span class="line">conn.setDoOutput(<span class="keyword">true</span>);</span><br><span class="line">conn.setRequestProperty(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line">OutputStreamWriter out = <span class="keyword">new</span> OutputStreamWriter(conn.getOutputStream());</span><br><span class="line"></span><br><span class="line">out.write(string);</span><br><span class="line">out.flush();</span><br><span class="line">out.close();</span><br><span class="line">InputStream inputStream = conn.getInputStream();</span><br><span class="line"><span class="keyword">byte</span>[] data = StreamTool.read(inputStream);</span><br><span class="line">html = <span class="keyword">new</span> String(data, <span class="string">"utf-8"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> html;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StreamTool</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] read(InputStream inStream) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        ByteArrayOutputStream outStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">        <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((len = inStream.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">            outStream.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">        &#125;</span><br><span class="line">        inStream.close();</span><br><span class="line">        <span class="keyword">return</span> outStream.toByteArray();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="多线程编程"><a href="#多线程编程" class="headerlink" title="多线程编程"></a>多线程编程</h2><p>因为非主线程不能修改ui界面，所以操作非主线程需要让一个主进程的handler来修改主线程的内容</p>
+<ul>
+<li><p>实现一个集成Thread的类，override其中的run()</p>
+</li>
+<li><p>如果需要将信息返回到主进程修改界面</p>
+<ul>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Handler uiHandler = <span class="keyword">new</span> Handler() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.handleMessage(msg);</span><br><span class="line">        mTextView.setText(<span class="string">"face"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ......</span></span><br><span class="line">Message msg = <span class="keyword">new</span> Message();</span><br><span class="line">msg.what = <span class="number">0</span>;</span><br><span class="line">msg.arg1 = response;</span><br><span class="line">uiHandler.sendMessage(msg);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="列表-listview"><a href="#列表-listview" class="headerlink" title="列表 listview"></a>列表 listview</h2><h3 id="自定义item的格式"><a href="#自定义item的格式" class="headerlink" title="自定义item的格式"></a>自定义item的格式</h3><ul>
+<li><p>首先需要一个xml文件描述item</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:padding</span>=<span class="string">"15dp"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/IamgeView_List"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"100dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"100dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"#FFFFFF"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/TextView_List"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"15dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_marginTop</span>=<span class="string">"30dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"内容"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textSize</span>=<span class="string">"30sp"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="自定义listAdapter"><a href="#自定义listAdapter" class="headerlink" title="自定义listAdapter"></a>自定义listAdapter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageListAdapter</span> <span class="keyword">extends</span> <span class="title">ArrayAdapter</span>&lt;<span class="title">ImageListArray</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> recourceId;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ImageListAdapter</span><span class="params">(Context context, <span class="keyword">int</span> resource, List&lt;ImageListArray&gt; objects)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, resource, objects);</span><br><span class="line">        recourceId = resource;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, @Nullable View convertView, @NonNull ViewGroup parent)</span> </span>&#123;</span><br><span class="line">        ImageListArray imageListArray = getItem(position); <span class="comment">//得到集合中指定位置的一组数据，并且实例化</span></span><br><span class="line">        View view = LayoutInflater.from(getContext()).inflate(recourceId, parent, <span class="keyword">false</span>); <span class="comment">//用布局裁剪器(又叫布局膨胀器)，将导入的布局裁剪并且放入到当前布局中</span></span><br><span class="line">        ImageView imageView = (ImageView) view.findViewById(R.id.IamgeView_List);<span class="comment">//从裁剪好的布局里获取ImageView布局ID</span></span><br><span class="line">        TextView textView = (TextView) view.findViewById(R.id.TextView_List); <span class="comment">//从裁剪好的布局里获取TextView布局Id</span></span><br><span class="line">        imageView.setImageBitmap(imageListArray.getImage());<span class="comment">//将当前一组imageListArray类中的图片iamgeId导入到ImageView布局中</span></span><br><span class="line">        textView.setText(imageListArray.getLabel());<span class="comment">//将当前一组imageListArray类中的TextView内容导入到TextView布局</span></span><br><span class="line">        <span class="keyword">return</span> view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="显示list的内容"><a href="#显示list的内容" class="headerlink" title="显示list的内容"></a>显示list的内容</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ImageListAdapter imageListAdapter = <span class="keyword">new</span> ImageListAdapter(MainActivity.<span class="keyword">this</span>, R.layout.item_layout, imageList);</span><br><span class="line">listView.setAdapter(imageListAdapter);</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/14/post/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/14/post/" itemprop="url">post</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-14T15:17:48+08:00">
+                2019-01-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/11/caffe-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1127,7 +1416,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1140,7 +1429,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -1177,7 +1466,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
